@@ -155,6 +155,6 @@ public class LCSS {
     }
 
     private static void run() {
-        //TODO
+        //TODO run on many strings, write to file, plot with Python
     }
 }
