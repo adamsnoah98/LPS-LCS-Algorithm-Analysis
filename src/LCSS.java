@@ -154,7 +154,6 @@ public class LCSS {
         run();
     }
 
-    //Record runtimes of each algorithm on a set of varied strings
     private static void run() {
         //TODO
     }
