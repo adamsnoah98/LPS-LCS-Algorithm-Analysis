@@ -151,10 +151,7 @@ public class LCSS {
     }
 
     public static void main(String[] args) {
-        run();
+        new Trial(false).run();
     }
 
-    private static void run() {
-        //TODO run on many strings, write to file, plot with Python
-    }
 }

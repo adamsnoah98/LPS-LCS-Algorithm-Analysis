@@ -98,12 +98,14 @@ public class LPS {
         return new GST(s, new StringBuilder(s).reverse().toString()).getLCSS();
     }
 
+
+    //////////////////////////////// RUNTIME TESTING ////////////////////////////////////
+
     public static void main(String[] args) {
-        run();
+        new Trial(true).run();
     }
 
-    private static void run() {
-        //TODO run on many strings, write to file, plot with Python
-    }
+
 
 }
+
