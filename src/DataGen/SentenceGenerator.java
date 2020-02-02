@@ -57,7 +57,11 @@ public class SentenceGenerator {
         return sb.substring(0, len);
     }
 
+    /** Recursive Data Structure for representing basic
+     * weighted context free grammars.
+     */
     class WCFGRule {
+
 
     }
 }
