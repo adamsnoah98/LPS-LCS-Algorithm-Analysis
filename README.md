@@ -7,5 +7,15 @@ or another preferred method. Python visualization code is included and requires 
 with your preferred package manager if needed.
 
 # Longest Common Substring (LCS)
+### Naive Implementation
+
+### Dynamic Programming
+
+### Suffix Trees
 
 # Longest Palindromic Substring (LPS)
+### Naive Implementation
+
+### Suffix Trees
+
+## Further Notes
