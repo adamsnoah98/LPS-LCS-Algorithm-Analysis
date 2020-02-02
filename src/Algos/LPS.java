@@ -1,3 +1,6 @@
+package Algos;
+
+import DataGen.Trial;
 import SuffixTree.GST;
 
 /**

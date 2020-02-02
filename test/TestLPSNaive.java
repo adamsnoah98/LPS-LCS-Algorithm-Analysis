@@ -1,5 +1,6 @@
-import org.junit.Test;
+import Algos.LPS;
 import org.junit.Assert;
+import org.junit.Test;
 
 public class TestLPSNaive {
 

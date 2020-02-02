@@ -1,4 +1,4 @@
-# LPS-LCS-Algorithm-Analysis
+# Algos.LPS-Algos.LCS-Algorithm-Analysis
 
 # Setup 
 
@@ -6,6 +6,6 @@ Java source code requires Java 8 or better; furthermore, test code uses JUnit 4.
 or another preferred method. Python visualization code is included and requires MatPlotLib. Download this to your class path
 with your preferred package manager if needed.
 
-# Longest Common Substring (LCS)
+# Longest Common Substring (Algos.LCS)
 
-# Longest Palindromic Substring (LPS)
+# Longest Palindromic Substring (Algos.LPS)

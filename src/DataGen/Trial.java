@@ -1,9 +1,14 @@
+package DataGen;
+
+import Algos.LCS;
+import Algos.LPS;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-/**For running LPS/LCS trials*/
+/**For running Algos.LPS/Algos.LCS trials*/
 public class Trial {
 
     private boolean isLPS;
@@ -26,7 +31,7 @@ public class Trial {
      * These arguments are bounded by a 10 second clock, once a trial exceeds this,
      * all harder trials receive an 'empty' (-1 second) trial time.
      *
-     * In the case of LCS the second string's parameters are upper-bounded by the first string
+     * In the case of Algos.LCS the second string's parameters are upper-bounded by the first string
      *
      * times are averaged over 10 trials each.
      */
@@ -41,13 +46,13 @@ public class Trial {
                     if(isLPS)
                         result = runLPSTrial(format, i + 2, (int) Math.pow(2, j + 3));
                     else
-                        result = runLCSSTrial(format, i + 2, (int) Math.pow(2, j + 3));
+                        result = runLCSTrial(format, i + 2, (int) Math.pow(2, j + 3));
                     for(int k = 0; k < result.length; k++)
                         data[k][format][i][j] = result[k];
                 }
             }
         }
-        File f = new File("out" + File.separator + (isLPS ? "lps.txt" : "lcss.txt"));
+        File f = new File("out" + File.separator + (isLPS ? "lps.txt" : "lcs.txt"));
         write(f);
     }
 
@@ -73,7 +78,7 @@ public class Trial {
         return times;
     }
 
-    private long[] runLCSSTrial(int format, int alphabet, int len) {
+    private long[] runLCSTrial(int format, int alphabet, int len) {
         long[] times = new long[4];
         String s1 = generate(format, alphabet, len);
         String s2 = generate(format, (int) (Math.random()*alphabet), (int) (Math.random()*len));

@@ -1,17 +1,19 @@
+package DataGen;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
- * Used in Trials class for structured strings, generates random sentences
- * from a small(ish) set of base words
+ * Used in Trials class for structured strings, generates random sentence-like strings
+ * from a small set of base words
  *
- * The sentences follow a basic WCFG, and aren't necessarily coherent
+ * The sentences follow a basic WCFG, and aren't necessarily coherent,
+ * all words are lower case, and omit all punctuation excluding commas
  */
 public class SentenceGenerator {
 
-    String[] nouns, verbs, adj, adv, preps, arts, conj;
-
+    final String[] nouns, verbs, adj, adv, preps, arts, conj;
 
     public SentenceGenerator(int dictionarySize) {
         nouns = new String[dictionarySize];
@@ -33,6 +35,7 @@ public class SentenceGenerator {
     private void loadWords(String[] to, File from) {
         try {
             Scanner s = new Scanner(from);
+            s.useDelimiter("(, |,\n)");
             for (int i = 0; i < to.length && s.hasNext(); i++)
                 to[i] = s.next();
             s.close();
@@ -43,11 +46,18 @@ public class SentenceGenerator {
     }
 
     public String sentence() {
+
         return ""; //TODO WCFG
     }
 
     public String article(int len) {
-        return ""; //TODO
+        StringBuilder sb = new StringBuilder();
+        while(sb.length() < len)
+            sb.append(sentence());
+        return sb.substring(0, len);
     }
 
+    class WCFGRule {
+
+    }
 }
