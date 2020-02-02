@@ -5,7 +5,7 @@ import SuffixTree.GST;
  *
  * (Space Complexities only consider working space)
  */
-public class LCSS {
+public class LCS {
 
     /**
      * Naive Implementation

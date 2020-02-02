@@ -1,4 +1,4 @@
-# LPS-LCSS-Algorithm-Analysis
+# LPS-LCS-Algorithm-Analysis
 
 # Setup 
 

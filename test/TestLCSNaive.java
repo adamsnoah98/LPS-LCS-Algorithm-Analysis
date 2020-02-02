@@ -1,7 +1,7 @@
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
-public class TestLCSSNaive {
+public class TestLCSNaive {
 
     private boolean isSubstring(String sub, String par) {
         for(int i = 0; i <= par.length() - sub.length(); i++)
@@ -13,7 +13,7 @@ public class TestLCSSNaive {
     private void loop(String[] firsts, String[] seconds, int[] lens) {
         String s;
         for(int i = 0; i < firsts.length; i++) {
-            s = LCSS.naive(firsts[i], seconds[i]);
+            s = LCS.naive(firsts[i], seconds[i]);
             Assert.assertEquals(lens[i], s.length());
             Assert.assertTrue(isSubstring(s, firsts[i]));
             Assert.assertTrue(isSubstring(s, seconds[i]));

@@ -1,9 +1,9 @@
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Writer;
+import java.io.ObjectOutputStream;
 
-/**For running LPS/LCSS trials*/
+/**For running LPS/LCS trials*/
 public class Trial {
 
     private boolean isLPS;
@@ -26,7 +26,7 @@ public class Trial {
      * These arguments are bounded by a 10 second clock, once a trial exceeds this,
      * all harder trials receive an 'empty' (-1 second) trial time.
      *
-     * In the case of LCSS the second string's parameters are upper-bounded by the first string
+     * In the case of LCS the second string's parameters are upper-bounded by the first string
      *
      * times are averaged over 10 trials each.
      */
@@ -83,10 +83,10 @@ public class Trial {
             }
             times[i] = -System.currentTimeMillis();
             switch (i) {
-                case 0: LCSS.naive(s1, s2); break;
-                case 1: LCSS.dpStd(s1, s2); break;
-                case 2: LCSS.dpSkip(s1, s2); break;
-                case 3: LCSS.st(s1, s2); break;
+                case 0: LCS.naive(s1, s2); break;
+                case 1: LCS.dpStd(s1, s2); break;
+                case 2: LCS.dpSkip(s1, s2); break;
+                case 3: LCS.st(s1, s2); break;
             }
             times[i] += System.currentTimeMillis();
             if(times[i] > 10000) {
@@ -109,14 +109,15 @@ public class Trial {
     }
 
     private void write(File f) {
-        Writer dataOut;
+        ObjectOutputStream dataOut;
         try {
-            dataOut = new FileWriter(f);
+            dataOut = new ObjectOutputStream(new FileOutputStream(f));
+            dataOut.writeObject(data);
+            dataOut.close();
         } catch (IOException e) {
             System.out.println("Failed to open data.txt for output");
             System.exit(1);
         }
-        //TODO
     }
 
 }

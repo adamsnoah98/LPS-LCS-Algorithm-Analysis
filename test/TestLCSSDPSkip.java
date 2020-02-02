@@ -13,7 +13,7 @@ public class TestLCSSDPSkip {
     private void loop(String[] firsts, String[] seconds, int[] lens) {
         String s;
         for(int i = 0; i < firsts.length; i++) {
-            s = LCSS.dpSkip(firsts[i], seconds[i]);
+            s = LCS.dpSkip(firsts[i], seconds[i]);
             Assert.assertEquals(lens[i], s.length());
             Assert.assertTrue(isSubstring(s, firsts[i]));
             Assert.assertTrue(isSubstring(s, seconds[i]));
