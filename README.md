@@ -16,6 +16,8 @@ with your preferred package manager if needed.
 # Longest Palindromic Substring (LPS)
 ### Naive Implementation
 
+### Dynamic Programming
+
 ### Suffix Trees
 
 ## Further Notes
