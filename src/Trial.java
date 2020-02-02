@@ -8,13 +8,16 @@ public class Trial {
 
     private boolean isLPS;
     private boolean[] timedOut; //tracks timedOut trials each loop
-    //Record average computation time data for
-    // [implementation][structured vs. random][alphabet size (2-52)][string len 2^3-2^16]
-    // Each is an average of 10 rounds
-    long[][][][] data;
+    /* Record average computation time data for
+     [implementation][structured vs. random][alphabet size (2-52)][string len 2^3-2^16]
+     Each is an average of 10 rounds
+     Alphabet size is the character set for unstructured strings, and is proportional to
+     dictionary size in the structured case */
+    private long[][][][] data;
+    private SentenceGenerator sg;
 
-    public Trial(boolean LPStrial) {
-        isLPS = LPStrial;
+    public Trial(boolean LPSTrial) {
+        isLPS = LPSTrial;
     }
 
     /**
@@ -33,7 +36,8 @@ public class Trial {
         for(int format = 0; format < 2; format++) {
             for (int i = 0; i < 51; i++) {
                 timedOut = new boolean[isLPS ? 3 : 4];
-                for (int j = 0; j < 14; j++) {
+                sg = new SentenceGenerator(i+2);
+                for (int j = 0; j < 14; j++) { //TODO avg over 10 times
                     if(isLPS)
                         result = runLPSTrial(format, i + 2, (int) Math.pow(2, j + 3));
                     else
@@ -94,7 +98,14 @@ public class Trial {
     }
 
     private String generate(int format, int alphabet, int len) {
-        return ""; //TODO
+        if(format == 0) {
+            char[] arr = new char[len];
+            for(int i = 0; i < arr.length; i++)
+                arr[i] = (char) (65 + (int) (Math.random()*alphabet));
+            return new String(arr);
+        } else {
+            return sg.article(len);
+        }
     }
 
     private void write(File f) {
