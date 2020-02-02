@@ -6,10 +6,6 @@ Java source code requires Java 8 or better; furthermore, test code uses JUnit 4.
 or another preferred method. Python visualization code is included and requires MatPlotLib. Download this to your class path
 with your preferred package manager if needed.
 
-# Algorithms
+# Longest Common Substring (LCS)
 
-TODO
-
-# Further Notes
-
-TODO
+# Longest Palindromic Substring (LPS)
