@@ -1,6 +1,6 @@
-house, herb, baseball, blanket, television, brain, curiosity, art, nouns, sports, bears,
-religion, voucher, car, cat, cats, fury, pi, sun, conjunction, tree, ant, those, anyone,
-pizza, this, forum, kayak, trees, existences, loot, peanut butter, lay up, state, starboard,
-keyboard, shelf, lawnmower, thought, herbivore, darkness, pit, goblin, silver,
-shaft, plumb, event, probe, bees, mounts, horses, martini,
-stars, belts, custodians, misses, paricardium, tendonitis, absurdism, dogma, zebra
+house herb baseball blanket television brain curiosity art nouns sports bears
+religion voucher car cat cats fury pi sun conjunction tree ant those anyone
+pizza this forum kayak trees existences loot peanut butter lay up state starboard
+keyboard shelf lawnmower thought herbivore darkness pit goblin silver
+shaft plumb event probe bees mounts horses martini
+stars belts custodians misses paricardium tendonitis absurdism dogma zebra

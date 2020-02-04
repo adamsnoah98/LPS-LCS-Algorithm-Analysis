@@ -3,10 +3,11 @@ package DataGen;
 import Algos.LCS;
 import Algos.LPS;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.util.Arrays;
 
 /**For running Algos.LPS/Algos.LCS trials*/
 public class Trial {
@@ -42,7 +43,7 @@ public class Trial {
             for (int i = 0; i < 51; i++) {
                 timedOut = new boolean[isLPS ? 3 : 4];
                 sg = new SentenceGenerator(i+2);
-                for (int j = 0; j < 14; j++) { //TODO avg over 10 times
+                for (int j = 0; j < 14; j++) {
                     if(isLPS)
                         result = runLPSTrial(format, i + 2, (int) Math.pow(2, j + 3));
                     else
@@ -56,49 +57,59 @@ public class Trial {
         write(f);
     }
 
+    /**
+     * Runs and averages 10 trials for the given parameters
+     * @param format structured (1) vs random (0)
+     * @param alphabet scales the alphabet/dictionary size
+     * @param len length of generate string
+     * @return average comp time (-1 if exceeds 10s)
+     */
     private long[] runLPSTrial( int format, int alphabet, int len) {
         long[] times = new long[3];
-        String s = generate(format, alphabet, len);
-        for(int i = 0; i < times.length; i++) {
-            if(timedOut[i]) {
-                times[i] = -1; continue;
+        for(int iter = 0; iter < 10; iter++) {
+            String s = generate(format, alphabet, len);
+            for (int i = 0; i < times.length && !timedOut[i]; i++) {
+                times[i] = -System.currentTimeMillis();
+                switch (i) {
+                    case 0: LPS.naive(s); break;
+                    case 1: LPS.dp(s); break;
+                    case 2: LPS.st(s); break;
+                }
+                times[i] += System.currentTimeMillis();
+                if (times[i] > 100000) //10trials * 10 s
+                    timedOut[i] = true;
             }
-            times[i] = -System.currentTimeMillis();
-            switch (i) {
-                case 0: LPS.naive(s); break;
-                case 1: LPS.dp(s); break;
-                case 2: LPS.st(s); break;
-            }
-            times[i] += System.currentTimeMillis();
-            if(times[i] > 10000) {
-                times[i] = -1;
-                timedOut[i] = true;
-            }
-        }
+        } for(int i = 0; i < times.length; i++) //avg
+            times[i] = timedOut[i] ? -1 : times[i]/10;
         return times;
     }
 
+    /**
+     * Runs and averages 10 trials for the given parameters
+     * @param format structured (1) vs random (0)
+     * @param alphabet scales the alphabet/dictionary size
+     * @param len length (upper bound) of generate string
+     * @return average comp time (-1 if exceeds 10s)
+     */
     private long[] runLCSTrial(int format, int alphabet, int len) {
         long[] times = new long[4];
-        String s1 = generate(format, alphabet, len);
-        String s2 = generate(format, (int) (Math.random()*alphabet), (int) (Math.random()*len));
-        for(int i = 0; i < times.length; i++) {
-            if(timedOut[i]) {
-                times[i] = -1; continue;
+        for(int count = 0; count < 10; count++) {
+            String s1 = generate(format, alphabet, len);
+            String s2 = generate(format, (int) (Math.random()*alphabet), (int) (Math.random()*len));
+            for(int i = 0; i < times.length && timedOut[i]; i++) {
+                times[i] -= System.currentTimeMillis();
+                switch (i) {
+                    case 0: LCS.naive(s1, s2); break;
+                    case 1: LCS.dpStd(s1, s2); break;
+                    case 2: LCS.dpSkip(s1, s2); break;
+                    case 3: LCS.st(s1, s2); break;
+                }
+                times[i] += System.currentTimeMillis();
+                if(times[i] > 100000) //10 trials * 10s
+                    timedOut[i] = true;
             }
-            times[i] = -System.currentTimeMillis();
-            switch (i) {
-                case 0: LCS.naive(s1, s2); break;
-                case 1: LCS.dpStd(s1, s2); break;
-                case 2: LCS.dpSkip(s1, s2); break;
-                case 3: LCS.st(s1, s2); break;
-            }
-            times[i] += System.currentTimeMillis();
-            if(times[i] > 10000) {
-                times[i] = -1;
-                timedOut[i] = true;
-            }
-        }
+        } for(int i = 0; i < times.length; i++) //avg
+            times[i] = timedOut[i] ? -1 : times[i]/10;
         return times;
     }
 
@@ -114,10 +125,10 @@ public class Trial {
     }
 
     private void write(File f) {
-        ObjectOutputStream dataOut;
+        BufferedWriter dataOut;
         try {
-            dataOut = new ObjectOutputStream(new FileOutputStream(f));
-            dataOut.writeObject(data);
+            dataOut = new BufferedWriter(new FileWriter(f));
+            dataOut.write(Arrays.deepToString(data));
             dataOut.close();
         } catch (IOException e) {
             System.out.println("Failed to open data.txt for output");
