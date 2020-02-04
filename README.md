@@ -22,13 +22,11 @@ with your preferred package manager if needed.
 
 ## Further Notes
 
-The generalized LCS problem with N strings would really display the strength of utilizing GSTs, as the given algorithms practically solve this already.  Simply passing the additional strings to the GST is all that's required for refactoring, and the complexity of adding strings scales additively with their lengths (maintaining linear time), whereas the naive and dynamic programming solutions scale multiplicatively, and require more refactoring.
+The generalized LCS problem with N > 5 strings would really display the strength of utilizing GSTs, as the given algorithms practically solve this already.  Simply passing the additional strings to the GST is all that's required for refactoring, and the complexity of adding strings scales additively with their lengths (maintaining linear time), whereas the naive and dynamic programming solutions scale multiplicatively, and require more refactoring.
 
 Possible improvements for these implementations include:
-* While most of these are somewhat space optimized, 
-the standard LCS DP solution can be space optimized from `O(nm)` to `O(min(n,m))`.
 * Loops on naive and DP solutions could be optimized for locality.
 * Using primitive node representations in the GST can reduce indirection for speed at the cost of readability.
 * GST construction could skip constructing deeper than the existing shared inner nodes, as LCS solutions only care
 about fully shared nodes in the general case. This would trim the time and space complexity from `O(n+m)` to `O(min(n,m))` 
-in the standard case. 
+in the standard case (assuming prior knowledge of string lengths). 
