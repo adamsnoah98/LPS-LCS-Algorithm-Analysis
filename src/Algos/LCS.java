@@ -92,13 +92,13 @@ public class LCS {
     }
 
     /**
-     * Space: O(nm)
+     * Space: O(min(n,m))
      *
-     * Uses n x m DP array
+     * Uses one array of such length, and some tracking numbers
      *
      * Time: O(nm)
      *
-     * Dominated by iteration over the array once doing O(1) work at each step.
+     * Iterating O(max(n,m)) times over a O(min(n,m)) array doing O(1) work at each step.
      *
      * @param s1 first target String
      * @param s2 second target String
@@ -108,24 +108,36 @@ public class LCS {
         if(s1.length() == 0 || s2.length() == 0)
             return "";
 
-        int[][] a = new int[s1.length()][s2.length()];
+        String tempMin;
+        if(s1.length() > s2.length()) { //s1 = min & s2 = max
+            tempMin = s2;
+            s2 = s1;
+            s1 = tempMin;
+        }
+
+        int[] a = new int[s1.length()];
+        int[] saved = new int[2];
         int i, j, maxI = 0, maxL = 0;
 
         for(i = 0; i < s1.length(); i++) //base case init
             if(s1.charAt(i) == s2.charAt(0)) {
-                a[i][0] = 1; maxL = 1; maxI = i;
+                a[i] = 1; maxL = 1; maxI = i;
             }
-        for(j = 0; j < s2.length(); j++) //base case init
-            if(s1.charAt(0) == s2.charAt(j)) {
-                a[0][j] = 1; maxL = 1; maxI = 0;
+        for(j = 1; j < s2.length(); j++) {
+            saved[0] = a[0];
+            a[0] = s1.charAt(0) == s2.charAt(j) ? 1 : 0;
+            if (a[0] > maxL) {
+                maxL = 1; maxI = 0;
             }
-        for(i = 1; i < s1.length(); i++) //main dp
-            for(j = 1; j < s2.length(); j++) {
-                a[i][j] = s1.charAt(i) == s2.charAt(j) ? a[i-1][j-1] + 1: 0;
-                if(a[i][j] > maxL) {
-                    maxL = a[i][j]; maxI = i - maxL + 1;
+            for (i = 1; i < s1.length(); i++) { //main DP
+                saved[i%2] = a[i];
+                a[i] = s1.charAt(i) == s2.charAt(j) ? saved[(i+1)%2] + 1 : 0;
+                if (a[i] > maxL) {
+                    maxL = a[i];
+                    maxI = i - maxL + 1;
                 }
             }
+        }
         return s1.substring(maxI, maxI + maxL);
     }
 
