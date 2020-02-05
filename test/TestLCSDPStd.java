@@ -2,7 +2,7 @@ import Algos.LCS;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TestLCSSDPSkip {
+public class TestLCSDPStd {
 
     private boolean isSubstring(String sub, String par) {
         for(int i = 0; i <= par.length() - sub.length(); i++)
@@ -14,7 +14,7 @@ public class TestLCSSDPSkip {
     private void loop(String[] firsts, String[] seconds, int[] lens) {
         String s;
         for(int i = 0; i < firsts.length; i++) {
-            s = LCS.dpSkip(firsts[i], seconds[i]);
+            s = LCS.dpStd(firsts[i], seconds[i]);
             Assert.assertEquals(lens[i], s.length());
             Assert.assertTrue(isSubstring(s, firsts[i]));
             Assert.assertTrue(isSubstring(s, seconds[i]));
@@ -48,7 +48,7 @@ public class TestLCSSDPSkip {
     @Test
     public void multiSub() {
         String[] f = new String[] {"MatchxxxMore", "FindTheCopy", "Overlappingstrings", "evenOverUneven"};
-        String[] s = new String[] {"MoreMatches", "CopyxCopyyCopyz", "pinglapsapps", "UnevenOverlap"};
+        String[] s = new String[] {"MoreMatches", "CopyxCopyyCopyz", "pinglopsapps", "UnevenOverlap"};
         int[] lens = new int[] {5, 4, 4, 8};
         loop(f, s, lens);
     }
