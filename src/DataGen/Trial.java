@@ -21,6 +21,8 @@ public class Trial {
      dictionary size in the structured case */
     private long[][][][] data;
     private SentenceGenerator sg;
+    private int maxAlphabet = 10, minAlphabet = 2, minLen = 10, maxLen = 17, trials = 1; //TODO choose params
+    private int maxTime;
 
     public Trial(boolean LPSTrial) {
         isLPS = LPSTrial;
@@ -37,17 +39,20 @@ public class Trial {
      * times are averaged over 10 trials each.
      */
     public void run() {
-        data = new long[isLPS ? 3 : 4][2][51][14];
+        data = new long[isLPS ? 3 : 4][2][maxAlphabet][maxLen];
         long[] result;
-        for(int format = 0; format < 2; format++) {
-            for (int i = 0; i < 51; i++) {
+        for(int format = 1; format < 2; format++) {
+            for (int i = 0; i < maxAlphabet; i++) {
                 timedOut = new boolean[isLPS ? 3 : 4];
                 sg = new SentenceGenerator(i+2);
-                for (int j = 0; j < 14; j++) {
+                for (int j = 0; j < maxLen; j++) {
+                    System.out.printf("Trial %s %d %d\n",
+                            format == 0 ? "random" : "article",
+                            i + minAlphabet, (int) Math.pow(2, j + minLen));
                     if(isLPS)
-                        result = runLPSTrial(format, i + 2, (int) Math.pow(2, j + 3));
+                        result = runLPSTrial(format, i + minAlphabet, (int) Math.pow(2, j + minLen));
                     else
-                        result = runLCSTrial(format, i + 2, (int) Math.pow(2, j + 3));
+                        result = runLCSTrial(format, i + minAlphabet, (int) Math.pow(2, j + minLen));
                     for(int k = 0; k < result.length; k++)
                         data[k][format][i][j] = result[k];
                 }
@@ -66,21 +71,26 @@ public class Trial {
      */
     private long[] runLPSTrial( int format, int alphabet, int len) {
         long[] times = new long[3];
-        for(int iter = 0; iter < 10; iter++) {
+        for(int iter = 0; iter < trials; iter++) {
             String s = generate(format, alphabet, len);
-            for (int i = 0; i < times.length && !timedOut[i]; i++) {
+            int control = -1, result = -1;
+            for (int i = 0; i < times.length; i++) {
+                if(timedOut[i]) continue;
                 times[i] = -System.currentTimeMillis();
                 switch (i) {
-                    case 0: LPS.naive(s); break;
-                    case 1: LPS.dp(s); break;
-                    case 2: LPS.st(s); break;
+                    case 0: control = LPS.naive(s).length(); break;
+                    case 1: result = LPS.dp(s).length(); break;
+                    case 2: result = LPS.st(s).length(); break;
                 }
                 times[i] += System.currentTimeMillis();
-                if (times[i] > 100000) //10trials * 10 s
+                assert result == control || result == -1;
+                System.out.println(i + " naive/dp/st: " + control);
+                System.out.println(times[i]);
+                if(times[i] > 10000*trials)
                     timedOut[i] = true;
             }
         } for(int i = 0; i < times.length; i++) //avg
-            times[i] = timedOut[i] ? -1 : times[i]/10;
+            times[i] = timedOut[i] ? -1 : times[i]/trials;
         return times;
     }
 
@@ -93,23 +103,26 @@ public class Trial {
      */
     private long[] runLCSTrial(int format, int alphabet, int len) {
         long[] times = new long[4];
-        for(int count = 0; count < 10; count++) {
+        for(int count = 0; count < trials; count++) {
             String s1 = generate(format, alphabet, len);
             String s2 = generate(format, (int) (Math.random()*alphabet), (int) (Math.random()*len));
-            for(int i = 0; i < times.length && timedOut[i]; i++) {
-                times[i] -= System.currentTimeMillis();
+            int control = -1, result = -1;
+            for(int i = 0; i < times.length; i++) {
+                if(timedOut[i]) continue;
+                times[i] = -System.currentTimeMillis();
                 switch (i) {
-                    case 0: LCS.naive(s1, s2); break;
-                    case 1: LCS.dpStd(s1, s2); break;
-                    case 2: LCS.dpSkip(s1, s2); break;
-                    case 3: LCS.st(s1, s2); break;
+                    case 0: control = LCS.naive(s1, s2).length(); break;
+                    case 1: result = LCS.dpStd(s1, s2).length(); break;
+                    case 2: result = LCS.dpSkip(s1, s2).length(); break;
+                    case 3: result = LCS.st(s1, s2).length(); break;
                 }
                 times[i] += System.currentTimeMillis();
-                if(times[i] > 100000) //10 trials * 10s
-                    timedOut[i] = true;
+                assert result == control || result == -1;
+                System.out.println(i + " naive/dp/skip/st: " + control);
+                System.out.println(times[i]);
             }
         } for(int i = 0; i < times.length; i++) //avg
-            times[i] = timedOut[i] ? -1 : times[i]/10;
+            times[i] = timedOut[i] ? -1 : times[i]/trials;
         return times;
     }
 
@@ -119,9 +132,8 @@ public class Trial {
             for(int i = 0; i < arr.length; i++)
                 arr[i] = (char) (65 + (int) (Math.random()*alphabet));
             return new String(arr);
-        } else {
+        } else
             return sg.article(len);
-        }
     }
 
     private void write(File f) {

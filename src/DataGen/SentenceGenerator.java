@@ -59,7 +59,7 @@ public class SentenceGenerator {
         while(sb.length() < len) {
             sb.append(sentence());
         }
-        return sb.substring(0, sb.indexOf(".") + 1);
+        return sb.substring(0, sb.lastIndexOf(".") + 1);
     }
 
     /**
