@@ -29,6 +29,6 @@ Possible improvements for these implementations include:
 * Using primitive node representations in the GST can reduce indirection for speed at the cost of readability.
 * GST construction could skip constructing deeper than the existing shared inner nodes, as LCS solutions only care
 about fully shared nodes in the general case. This would trim the time and space complexity from `O(n+m)` to `O(min(n,m))` 
-in the standard case (assuming prior knowledge of string lengths). 
+in the standard case, and `O(n_1 + ... + n_k)` time and space to `O(min(n_1, ..., n_k)` space and `O(k*min(n_1, ..., n_k))` time in general (assuming prior knowledge of string lengths). 
 
 (All timed trials were run on a measely 16GB of 1800MHz DDR3 with a 2.7GHz intel i5 processor)
