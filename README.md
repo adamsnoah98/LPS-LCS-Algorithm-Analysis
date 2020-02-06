@@ -27,6 +27,6 @@ The generalized LCS problem with more strings truly displays the strength of uti
 Possible improvements for these implementations include:
 * Loops on naive and DP solutions could be optimized for locality.
 * Using primitive node representations in the GST can reduce indirection for speed at the cost of readability.
-* GST construction could skip constructing deeper than the existing shared inner nodes, and skip retracing over known shared subtrees, as LCS solutions only care about fully shared nodes in the general case. This would trim the worst-case space complexity from `O(n+m)` to `O(min(n,m))` in the standard case, and `O(n_1 + ... + n_k)` space to `O(min(n_1, ..., n_k)` space time in general.  In reality this could be a significant improvement, as the optimal solution is usually small compared to the input size. 
+* GST construction could skip constructing deeper than the existing shared inner nodes, and skip retracing over known shared subtrees, as LCS solutions only care about fully shared nodes in the general case. This would trim the worst-case space complexity from `O(n+m)` to `O(min(n,m))` in the standard case, and `O(n_1 + ... + n_k)` space to `O(min(n_1, ..., n_k))` space time in general.  In reality this could be a significant improvement, as the optimal solution is usually small compared to the input size. 
 
 (All timed trials were run on a measely 16GB of 1800MHz DDR3 with a 2.7GHz intel i5 processor)
