@@ -3,6 +3,9 @@ package Algos;
 import DataGen.Trial;
 import SuffixTree.GST;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
 /**
  * Class with multiple solutions to the longest palindromic substring problem
  */
@@ -101,11 +104,12 @@ public class LPS {
         return new GST(s, new StringBuilder(s).reverse().toString()).getLCSS();
     }
 
-
     //////////////////////////////// RUNTIME TESTING ////////////////////////////////////
 
     public static void main(String[] args) {
-        new Trial(true).run();
+        Method[] methods = LPS.class.getDeclaredMethods();
+        methods = Arrays.stream(methods).filter(m -> m.getReturnType().equals(String.class)).toArray(Method[]::new);
+        new Trial("lps", methods, 2, 10, 13, 23).run();
     }
 
 }

@@ -3,6 +3,9 @@ package Algos;
 import DataGen.Trial;
 import SuffixTree.GST;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
 /**
  * Class with multiple solutions to the longest common substring problem
  *
@@ -166,7 +169,9 @@ public class LCS {
     }
 
     public static void main(String[] args) {
-        new Trial(false).run();
+        Method[] methods = LCS.class.getDeclaredMethods();
+        methods = Arrays.stream(methods).filter(m -> m.getReturnType().equals(String.class)).toArray(Method[]::new);
+        new Trial("lcs", methods, 2, 10, 12, 18).run();
     }
 
 }

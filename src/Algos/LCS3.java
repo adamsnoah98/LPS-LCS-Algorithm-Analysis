@@ -1,7 +1,9 @@
 package Algos;
 
+import DataGen.Trial;
 import SuffixTree.GST;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
@@ -82,4 +84,13 @@ public class LCS3 {
     public static String st(String s1, String s2, String s3) {
         return new GST(s1, s2, s3).getLCSS();
     }
+
+    //////////////////////////////// RUNTIME TESTING ////////////////////////////////////
+
+    public static void main() {
+        Method[] methods = LCS3.class.getDeclaredMethods();
+        methods = Arrays.stream(methods).filter(m -> m.getReturnType().equals(String.class)).toArray(Method[]::new);
+        new Trial("lcs3", methods, 2, 10, 6, 12).run();
+    }
+
 }
