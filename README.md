@@ -8,17 +8,41 @@ with your preferred package manager if needed.
 
 # Longest Common Substring (LCS)
 ### Naive Implementation
+This basic solution involves checking all possible pairs of indices between the input strings, and computing the length shared starting there. While having the benefit of being in-place, the runtime approaches cubic with `O(nmL)` - `L` being the optimal solution length.
+
+TODO GRAPH
 
 ### Dynamic Programming
+TODO first INTRO
+
+TODO first GRAPH
+
+TODO second INTRO
+
+TODO second GRAPH
 
 ### Suffix Trees
+TODO INTRO
+
+TODO GRAPH
 
 # Longest Palindromic Substring (LPS)
+LPS is a special case of LCS, where the two input strings eachothers' reverse. Interestingly, we will see this gives dynamic programming much better execution times for large but limited (<2^24 character) strings.
 ### Naive Implementation
+TODO INTRO
+
+TODO GRAPH
 
 ### Dynamic Programming
+TODO INTRO
+
+TODO GRAPH
+
 
 ### Suffix Trees
+TODO INTRO
+
+TODO GRAPH
 
 ## Further Notes
 
