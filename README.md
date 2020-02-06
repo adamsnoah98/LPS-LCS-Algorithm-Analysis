@@ -22,7 +22,7 @@ with your preferred package manager if needed.
 
 ## Further Notes
 
-The generalized LCS problem with N > 5 strings would really display the strength of utilizing GSTs, as the given algorithms practically solve this already.  Simply passing the additional strings to the GST is all that's required for refactoring, and the complexity of adding strings scales additively with their lengths (maintaining linear time), whereas the naive and dynamic programming solutions scale multiplicatively, and require more refactoring.
+The generalized LCS problem with N > 3 strings would really display the strength of utilizing GSTs, as the given algorithms practically solve this already.  Simply passing the additional strings to the GST is all that's required for refactoring, and the complexity of adding strings scales additively with their lengths (maintaining linear time), whereas the naive and dynamic programming solutions scale multiplicatively, and require more refactoring.
 
 Possible improvements for these implementations include:
 * Loops on naive and DP solutions could be optimized for locality.
