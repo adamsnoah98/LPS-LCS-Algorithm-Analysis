@@ -8,16 +8,16 @@ with your preferred package manager if needed.
 
 # Longest Common Substring (LCS)
 ### Naive Implementation
-This basic solution involves checking all possible pairs of indices between the input strings, and computing the length shared starting there. While having the benefit of being in-place, the runtime approaches cubic with `O(nmL)` - `L` being the optimal solution length.
+This basic solution involves checking all possible pairs of indices between the input strings, and computing the length shared starting there. While having the benefit of being in-place, the runtime approaches cubic with `O(nmL)` - `L` being the optimal solution length, and unsurprisngly, is the worst of the 4 LCS solutions here.
 
 TODO GRAPH
 
 ### Dynamic Programming
-TODO first INTRO
+A classic dynamic programming solution is building, bottom up, a `n x m` matrix with each entry being the length in a common substring ending at these respective indices. This is a well known `O(nm)` time and space solution; however, since only the previous row is needed to fill the next, this first implementation improves the space to `O(min(n,m)`.
 
 TODO first GRAPH
 
-TODO second INTRO
+Improving upon this classic algorithm, notice that if you know two indices `i`, `j`, don't match, then any optimal common substring must include `i+l` and `j+l` respectively - if `l` is the current best length - if the optimal solution lies between these bounds. This is called skipping, and we can use it to reduce the number of locations we check.  In the best case, the optimal solution is found immediately and the runtime is `O(nm/L)`.
 
 TODO second GRAPH
 
@@ -40,7 +40,7 @@ TODO GRAPH
 
 
 ### Suffix Trees
-Despite having the best asympotic runtime, suffix trees performed the worst for my given sample space due to their large overhead and the absraction heavy implementation I used. The algorithm simply finds the deepest shared node in a linear generalized sized suffix tree (GST) constructed in linear time implementing Ukkonen's algorithm.
+Despite having the best asympotic runtime, suffix trees performed the worst for my given sample space due to their large overhead and the absraction heavy implementation I used. The algorithm utilizes the LCS solution, feeding in the target string and its reverse.
 
 TODO GRAPH
 
