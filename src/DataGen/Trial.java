@@ -27,6 +27,15 @@ public class Trial {
     private long[][][][] data;
     private SentenceGenerator sg;
 
+    /**
+     *
+     * @param name txt file name to save trials as
+     * @param funcs implementations to compare
+     * @param minAlpha min Alphabet size (chars set/word dictionary size)
+     * @param maxAlpha ^
+     * @param minLen tries Strings greater than 2^minLen string
+     * @param maxLen ^
+     */
     public Trial(String name, Method[] funcs, int minAlpha, int maxAlpha,
                  int minLen, int maxLen) {
         this.name = name;
@@ -44,22 +53,22 @@ public class Trial {
      * These arguments are bounded by a 10 second clock, once a trial exceeds this,
      * all harder trials receive an 'empty' (-1 second) trial time.
      *
-     * In the case of Algos.LCS the second string's parameters are upper-bounded by the first string
-     *
      * times are averaged over 10 trials each.
      */
     public void run() {
         data = new long[funcs.length][2][maxAlphabet][maxLen];
         long[] result;
+        printImplementations();
         for(int format = 0; format < 2; format++) {
-            for (int i = 0; i < maxAlphabet; i++) {
+            for (int i = 0; i < maxAlphabet - minAlphabet; i++) {
                 timedOut = new boolean[funcs.length];
                 sg = new SentenceGenerator(i+2);
-                for (int j = 0; j < maxLen; j++) {
-                    System.out.printf("Trial %s %d %d\n",
-                            format == 0 ? "random" : "article",
-                            i + minAlphabet, (int) Math.pow(2, j + 3));
-                    result = runTrial(format, i + 2, (int) Math.pow(2, j + 3));
+                int l = (int) Math.pow(2,minLen-1);
+                for (int j = 0; j < maxLen - minLen; j++) {
+                    l = l << 1;
+                    System.out.printf("Trial %s %d %d\n", format == 0 ?
+                            "random" : "article", i + minAlphabet, l);
+                    result = runTrial(format, i + minAlphabet, l);
                     System.out.println(Arrays.toString(result));
                     for(int k = 0; k < result.length; k++)
                         data[k][format][i][j] = result[k];
@@ -72,18 +81,20 @@ public class Trial {
 
     private long[] runTrial(int format, int alphabet, int len) {
         long[] times = new long[funcs.length];
+        long time;
         for(int count = 0; count < trials; count++) {
             String[] args = new String[argCount];
             for(int argNum = 0; argNum < args.length; argNum++)
                 args[argNum] = generate(format, alphabet, len);
             for(int i = 0; i < times.length; i++) {
                 if(timedOut[i]) continue;
-                times[i] = -System.currentTimeMillis();
+                time = -System.currentTimeMillis();
                 try { funcs[i].invoke(null, (Object[]) args); }
                 catch (Exception e) { System.out.println(e.toString());System.exit(1); }
-                times[i] += System.currentTimeMillis();
-                if(times[i] > maxTime*trials)
+                time += System.currentTimeMillis();
+                if(time > maxTime)
                     timedOut[i] = true;
+                times[i] = time;
             }
         } for(int i = 0; i < times.length; i++) //avg
             times[i] = timedOut[i] ? -1 : times[i]/trials;
@@ -113,6 +124,15 @@ public class Trial {
             System.out.println("Failed to open data.txt for output");
             System.exit(1);
         }
+    }
+
+    private void printImplementations() {
+        StringBuilder sb = new StringBuilder();
+        for(Method m: funcs) {
+            sb.append(m.getName());
+            sb.append(" ");
+        }
+        System.out.println(sb.toString());
     }
 
 }

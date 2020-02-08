@@ -109,7 +109,7 @@ public class LPS {
     public static void main(String[] args) {
         Method[] methods = LPS.class.getDeclaredMethods();
         methods = Arrays.stream(methods).filter(m -> m.getReturnType().equals(String.class)).toArray(Method[]::new);
-        new Trial("lps", methods, 2, 10, 13, 23).run();
+        new Trial("lps", methods, 2, 51, 13, 23).run();
     }
 
 }

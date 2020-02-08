@@ -87,10 +87,10 @@ public class LCS3 {
 
     //////////////////////////////// RUNTIME TESTING ////////////////////////////////////
 
-    public static void main() {
+    public static void main(String[] args) {
         Method[] methods = LCS3.class.getDeclaredMethods();
         methods = Arrays.stream(methods).filter(m -> m.getReturnType().equals(String.class)).toArray(Method[]::new);
-        new Trial("lcs3", methods, 2, 10, 6, 12).run();
+        new Trial("lcs3", methods, 2, 51, 6, 20).run();
     }
 
 }
