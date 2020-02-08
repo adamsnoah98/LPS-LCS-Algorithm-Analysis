@@ -46,7 +46,7 @@ TODO GRAPH
 
 ## Further Notes
 
-The generalized LCS problem with more strings truly displays the strength of utilizing GSTs, as the given algorithms practically solve this already.  Simply passing the additional strings to the GST is all that's required for refactoring, and the complexity of adding strings scales additively with their lengths (maintaining linear time) whereas the naive and dynamic programming solutions scale multiplicatively, and require more refactoring.  I conducted a brief DP vs. suffix tree test on the case of 3 strings, and on inputs of only 2^12 characaters dynamic programming execution times already exceeded 10s, compared to suffix trees avg sub-1ms execution time.  The GST's required inputs of 2^20 or more to see sloggy >500ms runs.
+The generalized k-Common Substring problem with truly displays the strength of utilizing GSTs, as the given algorithm requires no refactoring t and the complexity of adding strings scales additively with their lengths (maintaining linear time) whereas the naive and dynamic programming solutions scale multiplicatively, and require more refactoring.  I conducted a brief DP vs. suffix tree test on the case of 3 strings, and on inputs of only 2^12 characaters dynamic programming execution times already exceeded 10s, compared to suffix trees avg sub-1ms execution time.  The GST's required inputs of 2^20 or more to see sloggy >500ms runs.
 
 Possible improvements for these implementations include:
 * Loops on naive and DP solutions could be optimized for locality.
