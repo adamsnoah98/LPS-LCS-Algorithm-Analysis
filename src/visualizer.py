@@ -1,12 +1,13 @@
 """
 Visualizer for LPS/LCSS algos
 """
-import numpy as np
-from matplotlib.ticker import MaxNLocator
-import matplotlib.pyplot as pp
 import os.path as p
 import re
 
+import matplotlib.colors as c
+import matplotlib.pyplot as pp
+import matplotlib.ticker as ticker
+import numpy as np
 
 MAXDATAPOINT = 10000
 formats = ["Random", "Article"]
@@ -31,6 +32,10 @@ def load_data(file):
         else:
             atom = int(atom)
             stack[-1].append(MAXDATAPOINT if atom == -1 else atom)
+            if stack[-1][-1] <= 0:
+                stack[-1][-1] = 1
+            if stack[-1] == 0:
+                stack[-1] = 1
     # next few lines of code work around an old bug from when the Data files were built
     # its not needed nor problematic if data is recompiled
     for i in range(len(data)):
@@ -53,20 +58,32 @@ def graph(dataSet, domain, graphName, problemName):
     xs = np.array([2**i for i in range(domain[2], domain[3])])
     z0s = np.array(dataSet[0])
     z1s = np.array(dataSet[1])
+    # mask warning
+    z0s = np.ma.masked_where(z0s <= 0, z0s)
+    z1s = np.ma.masked_where(z1s <= 0, z1s)
 
-    colors = pp.get_cmap('PiYG')
     fig, (g0, g1) = pp.subplots(nrows=2)
     g0.set_xscale('log', basex=2)
     g1.set_xscale('log', basex=2)
 
-    lvls = MaxNLocator(nbins=40).tick_values(z0s.min(), z0s.max())
-    vis0 = g0.contourf(xs, ys, z0s, levels=lvls, cmap=colors)
-    vis1 = g1.contourf(xs, ys, z1s, levels=lvls, cmap=colors)
-    fig.colorbar(vis0, ax=g0)
-    fig.colorbar(vis1, ax=g1)
-    g0.set_title(graphName + ": " + formats[0])
-    g1.set_title(graphName + ": " + formats[1])
-    fig.tight_layout()
+    colors = pp.get_cmap('coolwarm')
+    loc = ticker.FixedLocator([(1.5 if i % 2 else 1)*(2**int(i/2)) for i in range(0, 40)])
+    bar_formatter = ticker.FixedFormatter([2**i for i in range(13)])
+    norm = c.LogNorm(vmin=1, vmax=MAXDATAPOINT)
+    vis0 = g0.contourf(xs, ys, z0s, locator=loc, cmap=colors, norm=norm)
+    vis1 = g1.contourf(xs, ys, z1s, locator=loc,  cmap=colors, norm=norm)
+    fig.colorbar(vis0, ax=g0, format=bar_formatter)
+    fig.colorbar(vis1, ax=g1, format=bar_formatter)
+
+    g0.set_xlabel("String Length")
+    g1.set_xlabel("String Length")
+    g0.set_ylabel("Alphabet Size")
+    g1.set_ylabel("Dictionary Size (scaled)")
+    fig.suptitle(problemName + ": Average Execution Time (ms)")
+    g0.set_title(formats[0])
+    g1.set_title(formats[1])
+
+    fig.tight_layout(rect=[0, 0.03, 1, 0.95])
     pp.savefig(".." + p.sep + "Graphs" + p.sep + problemName+"_"+graphName)
 
 
@@ -84,4 +101,12 @@ LPS_data_file.close()
 LCS_data_file = open(".." + p.sep + "Data" + p.sep + "lcs.txt", "r")
 LCS_data, domain = load_data(LCS_data_file)
 visualize(LCS_data, domain, "LCS")
+LCS_data_file.close()
+
+
+"""================= LCS3 ==============="""
+
+LCS3_data_file = open(".." + p.sep + "Data" + p.sep + "lcs3.txt", "r")
+LCS3_data, domain = load_data(LCS3_data_file)
+visualize(LCS3_data, domain, "3-LCS")
 LCS_data_file.close()
