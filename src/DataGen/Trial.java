@@ -56,7 +56,7 @@ public class Trial {
      * times are averaged over 10 trials each.
      */
     public void run() {
-        data = new long[funcs.length][2][maxAlphabet][maxLen];
+        data = new long[funcs.length][2][maxAlphabet-minAlphabet][maxLen-minLen];
         long[] result;
         printImplementations();
         for(int format = 0; format < 2; format++) {
@@ -115,6 +115,7 @@ public class Trial {
         BufferedWriter dataOut;
         try {
             dataOut = new BufferedWriter(new FileWriter(f));
+            dataOut.write(minAlphabet + " " + maxAlphabet + " " + minLen + " " + maxLen + "\n");
             for(Method m: funcs)
                 dataOut.write(m.getName() + "\n");
             dataOut.write(Arrays.deepToString(data));
