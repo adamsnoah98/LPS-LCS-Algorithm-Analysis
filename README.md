@@ -1,5 +1,7 @@
 # LPS-LCS-Algorithm-Analysis
 
+TODO intro
+
 # Setup 
 
 Java source code requires Java 8 or better; furthermore, test code uses JUnit 4.12, so this must be added to the project using Maven 
@@ -29,6 +31,7 @@ My standout favorite result is this graph. First it shows a vast performance boo
 
 ### Suffix Trees
 TODO INTRO
+Below we see a solidly linear time complexity, with the even scaling on the graph below.  Besides the obvious comparisons to the other implementations, note the dependence on alphabet size. This is a likely result of two forces. The GST node implementation using HashMaps, which need to be resized, and more characters imply more nodes with shorter edges, increasing indirection within the algorithm. This effect is less pronounced on the structured data as the edges are longer (often words or fragments), and even the smallest dictionary size has a sizeable 15-20 character alphabet.
 
 <img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/LCS_st.png" width="500" height="300" />
 
@@ -56,6 +59,7 @@ The generalized k-Common Substring problem with truly displays the strength of u
 
 ### Extended Dynamic Programming Solution
 <img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/3-LCS_dp.png" width="425" height="225" />
+
 ### Extended Suffix Tree Solution
 <img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/3-LCS_st.png" width="425" height="225" />
 
