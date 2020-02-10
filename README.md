@@ -50,9 +50,8 @@ The best performing algorithm for DPS (for strings under 2<sup>24</sup> characte
 
 <img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/LPS_dp.png" width="500" height="300" />
 
-
 ### Suffix Trees
-Despite having the best asympotic runtime, suffix trees performed the worst for my given sample space due to their large overhead and the absraction heavy implementation I used. The algorithm utilizes the LCS solution, feeding in the target string and its reverse.
+Despite having the best asympotic runtime, suffix trees performed the worst for my given sample space due to their large overhead and the abstraction heavy implementation I used. The algorithm utilizes the LCS solution, feeding in the target string and its reverse.
 
 <img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/LPS_st.png" width="500" height="300" />
 
