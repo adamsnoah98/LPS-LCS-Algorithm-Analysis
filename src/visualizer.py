@@ -54,7 +54,8 @@ def visualize(dataGroup, domain, problemName):
 
 # Create contour map of execution time vs. input size and alphabet size
 def graph(dataSet, domain, graphName, problemName):
-    ys = np.array(range(domain[0], domain[1]))
+    ys_char = np.array(range(domain[0], domain[1]))
+    ys_word = np.array([int(13*i/4)+1 for i in range(domain[0], domain[1])]);
     xs = np.array([2**i for i in range(domain[2], domain[3])])
     z0s = np.array(dataSet[0])
     z1s = np.array(dataSet[1])
@@ -70,15 +71,15 @@ def graph(dataSet, domain, graphName, problemName):
     loc = ticker.FixedLocator([(1.5 if i % 2 else 1)*(2**int(i/2)) for i in range(0, 40)])
     bar_formatter = ticker.FixedFormatter([2**i for i in range(13)])
     norm = c.LogNorm(vmin=1, vmax=MAXDATAPOINT)
-    vis0 = g0.contourf(xs, ys, z0s, locator=loc, cmap=colors, norm=norm)
-    vis1 = g1.contourf(xs, ys, z1s, locator=loc,  cmap=colors, norm=norm)
+    vis0 = g0.contourf(xs, ys_char, z0s, locator=loc, cmap=colors, norm=norm)
+    vis1 = g1.contourf(xs, ys_word, z1s, locator=loc,  cmap=colors, norm=norm)
     fig.colorbar(vis0, ax=g0, format=bar_formatter)
     fig.colorbar(vis1, ax=g1, format=bar_formatter)
 
     g0.set_xlabel("String Length")
     g1.set_xlabel("String Length")
     g0.set_ylabel("Alphabet Size")
-    g1.set_ylabel("Dictionary Size (scaled)")
+    g1.set_ylabel("Dictionary Size")
     fig.suptitle(problemName + ": Average Execution Time (ms)")
     g0.set_title(formats[0])
     g1.set_title(formats[1])
