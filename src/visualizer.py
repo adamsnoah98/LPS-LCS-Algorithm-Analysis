@@ -1,13 +1,12 @@
 """
 Visualizer for LPS/LCSS algos
 """
-import os.path as p
-import re
-
 import matplotlib.colors as c
 import matplotlib.pyplot as pp
 import matplotlib.ticker as ticker
 import numpy as np
+import os.path as p
+import re
 
 MAXDATAPOINT = 10000
 formats = ["Random", "Article"]
@@ -55,6 +54,7 @@ def visualize(dataGroup, domain, problemName):
 # Create contour map of execution time vs. input size and alphabet size
 def graph(dataSet, domain, graphName, problemName):
     ys_char = np.array(range(domain[0], domain[1]))
+    # scaled according to sentenceGenerator.java constructor
     ys_word = np.array([int(13*i/4)+1 for i in range(domain[0], domain[1])]);
     xs = np.array([2**i for i in range(domain[2], domain[3])])
     z0s = np.array(dataSet[0])
