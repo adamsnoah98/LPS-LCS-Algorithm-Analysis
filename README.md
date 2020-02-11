@@ -45,6 +45,8 @@ While this is not a truly naive solution, it is certainly the simplist of these 
 
 <img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/LPS_naive.png" width="500" height="300" />
 
+Notice that the performace appears worse with smaller alphabets; however, this is just a symptom of the fact that the expected palindrome length in a random string is longer with fewer distinct characters.
+
 ### Dynamic Programming
 The best performing algorithm for DPS (for strings under 2<sup>24</sup> characters), was a DP implementation, which runs in *O(P)* time, where *P* is the number of palindromic substrings.  Typically this number is *O(n)*, and the algorithm is very basic so there is little overhead. It iterates through the string, for each iteration *i* finding the longest possible odd-length palindrome centered on character *i*, and the longest even-length palindrome centered between characters *i* and *i+1*.
 
@@ -73,7 +75,7 @@ The generalized k-Common Substring problem with truly displays the strength of u
 * A dedicated LPS GST constructor could elimate the need to copy and reverse the target string.
 * GST construction could skip constructing deeper than the existing shared inner nodes, and skip retracing over known shared subtrees, as LCS solutions only care about fully shared nodes in the general case. This would improve the algorithm's performance in multiple ways:
     1. Space worst case - *O(n<sub>1</sub>, ..., n<sub>k</sub>)* to *O(min(n<sub>1</sub>, ..., n<sub>k</sub>))*. 
-    2. Time best case - *O(n<sub>1</sub>, ..., n<sub>k</sub>)* to *O(k\*min(n<sub>1</sub>, ..., n<sub>k</sub>))*.
+    2. Time best case - *O(n<sub>1</sub>, ..., n<sub>k</sub>)* to *O(k min(n<sub>1</sub>, ..., n<sub>k</sub>))*.
     3. Execution time reduction by keeping a smaller tree because it reduces memory allocations, map sizes, and indirection.
     4. A simple parallel algorithm variant with best case *O(L lg k + median(n<sub>1</sub>, ..., n<sub>k</sub>))*, excluding load balancing.
 
