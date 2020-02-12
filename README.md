@@ -61,13 +61,15 @@ Despite having the best asymptotic runtime, suffix trees performed the worst for
 
 ## Further Notes
 
-The generalized k-Common Substring problem truly displays the strength of utilizing GSTs, as the given algorithm requires no refactoring and the complexity of adding strings scales additively with their lengths (maintaining linear time). One the other hand, the naive and dynamic programming solutions scale multiplicatively, and require more refactoring.  I conducted a brief DP vs. suffix tree test on the case of 3 strings, and on inputs of only 2<sup>12</sup> characters dynamic programming execution times already exceeded 10s, compared to suffix trees avg sub-1ms execution time.  The GST's required inputs of 2<sup>20</sup> or more to see sloggy >500ms runs.
+The generalized k-Common Substring problem truly displays the strength of utilizing GSTs, as the given algorithm requires no refactoring\* and the complexity of adding strings scales additively with their lengths (maintaining linear time). One the other hand, the naive and dynamic programming solutions scale multiplicatively, and require more refactoring.  I conducted a brief DP vs. suffix tree test on the case of finding the LCS of 3 strings, and on inputs of only 2<sup>12</sup> characters dynamic programming execution times already exceeded 10s, compared to suffix trees avg sub-1ms execution time.  The GST's required inputs of 2<sup>20</sup> or more to see sloggy >500ms runs.
 
 ### Extended Dynamic Programming Solution
 <img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/3-LCS_dp.png" width="425" height="225" />
 
 ### Extended Suffix Tree Solution
 <img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/3-LCS_st.png" width="425" height="225" />
+
+\* No refactoring in the case of only finding the LCS between all strings, finding the array of all *2-k* LCSs requires only slight refactoring of the traversal.
 
 ## Possible improvements and extensions for these implementations include:
 * Loops on naive and DP solutions could be optimized for locality.
@@ -76,11 +78,6 @@ The generalized k-Common Substring problem truly displays the strength of utiliz
 * All of solutions excluding suffix trees have *straight forward* parallelizable variants that give *scalable speedups* in the base case.
 * Suffix trees in the general case can be built in parallel with nodes as critical sections at the cost of *O(k)* sized nodes.
 * A dedicated LPS GST constructor could elimate the need to copy and reverse the target string.
-* GST construction could skip constructing deeper than the existing shared inner nodes, and skip retracing over known shared subtrees, assuming we only care about substrings shared by all parent strings. This would improve the algorithm's performance in multiple ways:
-    1. Space worst case - *O(n<sub>1</sub>, ..., n<sub>k</sub>)* to *O(min(n<sub>1</sub>, ..., n<sub>k</sub>))*. 
-    2. Time best case - *O(n<sub>1</sub>, ..., n<sub>k</sub>)* to *O(k min(n<sub>1</sub>, ..., n<sub>k</sub>))*.
-    3. Execution time reduction by keeping a smaller tree because it reduces memory allocations, map sizes, and indirection.
-    4. A simple parallel algorithm variant with best case *O(L lg k + median(n<sub>1</sub>, ..., n<sub>k</sub>))*, excluding load balancing.
 
   In practice this could be a significant improvement, as the optimal solution is usually small compared to the input size. 
 
