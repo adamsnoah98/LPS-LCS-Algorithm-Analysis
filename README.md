@@ -4,6 +4,8 @@ The longest common substring (LCS) problem is a classic computational problem us
 
 Algorithms and data generation code is written in Java, and visualized with PyPlot.  The domain for these visualizations evaluates performance on string length (2<sup>7</sup>-2<sup>24</sup>), comparing random data with structured data in the form of articles written as a random series of psuedo-sentences via a weighted context free grammar and small dictionary.  Additionally, the alphabet (character set size), and dictionary (word set size) are varied to test any possible performance effect.
 
+Note for LCS cases both strings are of equal length for this visualization.
+
 # Setup 
 
 Java source code requires Java 8 or better; furthermore, test code utilizes JUnit 4.12, so this must be added to the project using Maven 
