@@ -1,6 +1,6 @@
 # LPS-LCS-Algorithm-Analysis
 
-The longest common substring (LCS) problem is a classic computational problem used all the time.  This project explores LCS, a special case of it, the longest palindromic substring (LPS) problem, and its generalizations alongside how different problem domains can affect algorithm performance.  I implement a variety of solutions to these problems, discuss their theorectical performance and then quantitatively examine their capabilities.  
+The longest common substring (LCS) problem is a classic computational problem used all the time.  This project explores LCS, a special case of it, the longest palindromic substring (LPS) problem, and its generalizations alongside how different problem domains can affect algorithm performance.  I implement a variety of solutions to these problems, discuss their theoretical performance and then quantitatively examine their capabilities.  
 
 Algorithms and data generation code is written in Java, and visualized with PyPlot.  The domain for these visualizations evaluates performance on string length (2<sup>7</sup>-2<sup>24</sup>), comparing random data with structured data in the form of articles written as a random series of psuedo-sentences via a weighted context free grammar and small dictionary.  Additionally, the alphabet (character set size), and dictionary (word set size) are varied to test any possible performance effect.
 
