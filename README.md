@@ -18,7 +18,7 @@ This basic solution involves checking all possible pairs of indices between the 
 
 <img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/LCS_naive.png" width="500" height="300" />
 
-Most of this domain is not tractable with a naive solution.  Additionally, it's sensible alhpabet size would not affect performance as this implementation leverages no aspects of its findings or input format.
+Most of this domain is not tractable with a naive solution.  Additionally, it's sensible alphabet size would not affect performance as this implementation leverages no aspects of its findings or input format.
 
 ### Dynamic Programming
 A classic dynamic programming solution is building, bottom up, a *n x m* matrix with each entry being the length in a common substring ending at these respective indices. This is a well known *O(nm)* time and space solution; however, since only the previous row is needed to fill the next, this first implementation improves the space to *O(min(n,m))*.
