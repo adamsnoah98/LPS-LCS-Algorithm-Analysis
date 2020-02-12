@@ -79,6 +79,4 @@ The generalized k-Common Substring problem truly displays the strength of utiliz
 * Suffix trees in the general case can be built in parallel with nodes as critical sections at the cost of *O(k)* sized nodes.
 * A dedicated LPS GST constructor could elimate the need to copy and reverse the target string.
 
-  In practice this could be a significant improvement, as the optimal solution is usually small compared to the input size. 
-
 (All timed trials were run on a measely 16GB of 1800MHz DDR3 with a 2.7GHz intel i5 processor)
