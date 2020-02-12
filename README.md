@@ -72,6 +72,7 @@ The generalized k-Common Substring problem truly displays the strength of utiliz
 ## Possible improvements and extensions for these implementations include:
 * Loops on naive and DP solutions could be optimized for locality.
 * Using primitive node representations in the GST can reduce indirection for speed at the cost of readability.
+* Dynamic programming solutions could utilize maps over the sparse arrays, saving space at the cost of some overhead.
 * All of solutions excluding suffix trees have *straight forward* parallelizable variants that give *scalable speedups* in the base case.
 * Suffix trees in the general case can be built in parallel with nodes as critical sections at the cost of *O(k)* sized nodes.
 * A dedicated LPS GST constructor could elimate the need to copy and reverse the target string.
