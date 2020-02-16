@@ -11,6 +11,11 @@ import re
 MAXDATAPOINT = 10000
 formats = ["Random", "Article"]
 
+colors = pp.get_cmap('coolwarm')
+loc = ticker.FixedLocator([(1.5 if i % 2 else 1)*(2**int(i/2)) for i in range(0, 40)])
+bar_formatter = ticker.FixedFormatter([2**i for i in range(13)])
+norm = c.LogNorm(vmin=1, vmax=MAXDATAPOINT)
+
 
 def load_data(file):
     domain = [int(i) for i in file.readline().split(" ")]
@@ -46,46 +51,51 @@ def load_data(file):
 
 
 # Graph each implementation/input format
-def visualize(dataGroup, domain, problemName):
-    for k in dataGroup.keys():
-        graph(dataGroup[k], domain, k, problemName)
+def visualize(data_group, domain, problem_name, alt_param="alphabet"):
+    for k in data_group.keys():
+        make_figure(data_group[k], domain, k, problem_name)
 
 
 # Create contour map of execution time vs. input size and alphabet size
-def graph(dataSet, domain, graphName, problemName):
-    ys_char = np.array(range(domain[0], domain[1]))
-    # scaled according to sentenceGenerator.java constructor
-    ys_word = np.array([int(13*i/4)+1 for i in range(domain[0], domain[1])]);
-    xs = np.array([2**i for i in range(domain[2], domain[3])])
-    z0s = np.array(dataSet[0])
-    z1s = np.array(dataSet[1])
-    # mask warning
-    z0s = np.ma.masked_where(z0s <= 0, z0s)
-    z1s = np.ma.masked_where(z1s <= 0, z1s)
+def make_figure(dataSet, domain, graphName, problemName):
+    param = "ratio" if problemName == "Ratio-LCS" else "alphabet"
+    rows = 1 if problemName == "Ratio-LCS" else 2
+    fig, axes = pp.subplots(nrows=rows)
+    if not hasattr(axes, "__iter__"):
+        axes = [axes]
+    for i in range(len(axes)):
+        vis = graph(axes[i], dataSet[i], domain, formats[i], alt_param=param)
+        fig.colorbar(vis, ax=axes[i], format=bar_formatter)
 
-    fig, (g0, g1) = pp.subplots(nrows=2)
-    g0.set_xscale('log', basex=2)
-    g1.set_xscale('log', basex=2)
-
-    colors = pp.get_cmap('coolwarm')
-    loc = ticker.FixedLocator([(1.5 if i % 2 else 1)*(2**int(i/2)) for i in range(0, 40)])
-    bar_formatter = ticker.FixedFormatter([2**i for i in range(13)])
-    norm = c.LogNorm(vmin=1, vmax=MAXDATAPOINT)
-    vis0 = g0.contourf(xs, ys_char, z0s, locator=loc, cmap=colors, norm=norm)
-    vis1 = g1.contourf(xs, ys_word, z1s, locator=loc,  cmap=colors, norm=norm)
-    fig.colorbar(vis0, ax=g0, format=bar_formatter)
-    fig.colorbar(vis1, ax=g1, format=bar_formatter)
-
-    g0.set_xlabel("String Length")
-    g1.set_xlabel("String Length")
-    g0.set_ylabel("Alphabet Size")
-    g1.set_ylabel("Dictionary Size")
     fig.suptitle(problemName + ": Average Execution Time (ms)")
-    g0.set_title(formats[0])
-    g1.set_title(formats[1])
-
     fig.tight_layout(rect=[0, 0.03, 1, 0.95])
     pp.savefig(".." + p.sep + "Graphs" + p.sep + problemName+"_"+graphName)
+
+
+# Handles all graph plotting reation cases
+def graph(axes, dataSet, domain, graph_name, alt_param="alphabet"):
+    xs = np.array([2**i for i in range(domain[2], domain[3])])
+    ys = range(domain[0], domain[1])
+    if alt_param == "alphabet":
+        ys = np.array(ys if graph_name == "Random" else [int(13*i/4)+1 for i in ys])
+    else:
+        ys = np.array([2**-r for r in ys])
+    zs = np.array(dataSet)
+    zs = np.ma.masked_where(zs <= 0, zs)
+
+    axes.set_xscale('log', basex=2)
+    if not alt_param == "alphabet":
+        axes.set_yscale('log', basey=2)
+    x_label = "String Length" if alt_param == "alphabet" else "String 1 Length"
+    axes.set_xlabel(x_label)
+    y_label = "Alphabet Size" if graph_name == "Random" else "Dictionary Size"
+    if alt_param != "alphabet":
+        y_label = "String Length Ratio (s2/s1)"
+    axes.set_ylabel(y_label)
+    axes.set_title(graph_name)
+
+    vis = axes.contourf(xs, ys, zs, locator=loc, cmap=colors, norm=norm)
+    return vis
 
 
 """================= LPS ==============="""
@@ -111,3 +121,10 @@ LCS3_data_file = open(".." + p.sep + "Data" + p.sep + "lcs3.txt", "r")
 LCS3_data, domain = load_data(LCS3_data_file)
 visualize(LCS3_data, domain, "3-LCS")
 LCS_data_file.close()
+
+"""=== LCS Ratio (differing str lens)===="""
+
+LCSR_data_file = open(".." + p.sep + "Data" + p.sep + "lcsRatio.txt", "r")
+LCSR_data, domain = load_data(LCSR_data_file)
+visualize(LCSR_data, domain, "Ratio-LCS")
+LCSR_data_file.close()

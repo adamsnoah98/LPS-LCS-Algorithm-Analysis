@@ -172,6 +172,7 @@ public class LCS {
         Method[] methods = LCS.class.getDeclaredMethods();
         methods = Arrays.stream(methods).filter(m -> m.getReturnType().equals(String.class)).toArray(Method[]::new);
         new Trial("lcs", methods, 2, 51, 12, 24).run();
+        new Trial("lcsRatio", methods, 2, 10, 12, 24, Trial.AltParam.MINORLENGTH).run();
     }
 
 }
