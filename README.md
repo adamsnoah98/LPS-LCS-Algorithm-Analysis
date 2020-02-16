@@ -40,8 +40,15 @@ Below we see a solidly linear time complexity, with the even scaling on the grap
 
 <img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/LCS_st.png" width="500" height="300" />
 
+### Performance on Uneven String Lengths
+
+Clearly from the theorectical runtimes the dynamic programming solutions are faster when even just one string is small. From the graph below its clear dynamic programming is competitive up to a surprising threshold.  From the graphs below even standard dynamic programming is no worse than the (albeit abstraction heavy) suffix tree implementation so long as one string is shorter than 2<sup>12</sup>.
+
+<img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/Ratio-LCS_st.png" width="250" height="150" /><img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/Ratio-LCS_dpStd.png" width="250" height="150" />
+
+
 # Longest Palindromic Substring (LPS)
-LPS is a special case of LCS, where the two input strings are eachothers' reverse. Interestingly, we will see this gives dynamic programming much better execution times for large but limited (<2^24 character) strings.
+LPS is a special case of LCS, where the two input strings are eachothers' reverse. Interestingly, we will see this gives dynamic programming much better execution times for large but limited (<2<sup>24</sup> character) strings.
 ### Naive Implementation
 While this is not a truly naive solution, it is certainly the simplist of these three. The algorithm runs several iterations over the string, each time searching for a longer palindrome of length up to the optimal *L*.  Since palindromes always have at least *n / 2* inner palindromes the algorithm can terminate after *L < n* iterations, giving a runtime of *O(nL^2)*.
 
