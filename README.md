@@ -56,13 +56,19 @@ While this is not a truly naive solution, it is certainly the simplest of these 
 
 Notice that the performance appears worse with smaller alphabets; however, this is just a symptom of the fact that the expected palindrome length in a random string is longer with fewer distinct characters.
 
-### Dynamic Programming
-The best performing algorithm for DPS (for strings under 2<sup>24</sup> characters), was a DP implementation, which runs in *O(P)* time, where *P* is the number of palindromic substrings.  Typically this number is *O(n)*, and the algorithm is very basic so there is little overhead. It iterates through the string, for each iteration *i* finding the longest possible odd-length palindrome centered on character *i*, and the longest even-length palindrome centered between characters *i* and *i+1*.
+### Improved
+The best performing algorithm for DPS (for strings under 2<sup>24</sup> characters), was a space-cheap version of manacher's algorithm, which runs in *O(P)* time, where *P* is the number of palindromic substrings.  Typically this number is *O(n)*, and the algorithm is very basic so there is little overhead. It iterates through the string, for each iteration *i* finding the longest possible odd-length palindrome centered on character *i*, and the longest even-length palindrome centered between characters *i* and *i+1*.
 
 <img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/LPS_dp.png" width="500" height="300" />
 
+### Manacher's Algorithm
+
+TODO Text
+
+TODO Graph
+
 ### Suffix Trees
-Despite having the best asymptotic runtime, suffix trees performed the worst for this sample space due to their large overhead and the abstraction heavy implementation I used. The algorithm utilizes the LCS solution, feeding in the target string and its reverse.
+Despite having the best asymptotic runtime, suffix trees performed the worst for this sample space due to their large overhead and the abstraction heavy implementation I used. The algorithm utilizes a modified LCS solution, feeding in the target string and its reverse. This requires constant time LCA retrieval, processed in linear time. My solution utilizes a *O(<text>&radic;</text> n log<sup>2</sup>n) <b>&isin;</b> O(n)* processing algorithm presented by Bender & Farach-Colton (2000).
 
 <img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/LPS_st.png" width="500" height="300" />
 
