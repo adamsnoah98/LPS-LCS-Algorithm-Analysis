@@ -2,11 +2,10 @@ package SuffixTree;
 
 
 public abstract class Node {
-    static int idCounter = 0;
 
     GST tree;
     Inner parent;
-    int id = -1, strKey, start, depth;
+    int id = -1, strKey, start, depth, level;
     //used for finding common substrings
     int shareCount = 1, lastVisitedby = -1;
 
@@ -15,6 +14,8 @@ public abstract class Node {
     abstract int getDepth();
 
     abstract int getEnd();
+
+    public abstract Node walk();
 
     /**Get char at index from suffix up to and including this*/
     eChar charFmSuf(int depth) {

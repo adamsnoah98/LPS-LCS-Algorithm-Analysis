@@ -10,7 +10,7 @@ public class Leaf extends Node {
         this.strKey = strKey;
         this.start = start;
         this.suffixIndex = suffixIndex;
-        this.id = Node.idCounter++;
+        this.id = tree.getAndIncSize();
         this.lastVisitedby = strKey;
     }
 
@@ -27,5 +27,9 @@ public class Leaf extends Node {
     @Override
     int getEnd() {
         return tree.getLeafEnd(strKey);
+    }
+
+    public Node walk() {
+        return this.parent;
     }
 }

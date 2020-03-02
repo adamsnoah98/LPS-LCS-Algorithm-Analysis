@@ -1,6 +1,7 @@
 package SuffixTree;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class Inner extends Node {
@@ -8,13 +9,14 @@ public class Inner extends Node {
     int end;
     Inner sl; //suffixLink
     Map<eChar, Node> children = new HashMap<>();
+    Iterator<Node> iter;
 
     /**Root constructor*/
     Inner(GST tree) {
         this.tree = tree;
         this.parent = this;
         this.depth = 0;
-        this.id = Node.idCounter++;
+        this.id = tree.getAndIncSize();
         this.lastVisitedby = strKey;
     }
 
@@ -33,7 +35,7 @@ public class Inner extends Node {
         this.start = caller.start;
         this.end = caller.start + depth;
         this.depth = getLen() + parent.depth;
-        this.id = idCounter++;
+        this.id = tree.getAndIncSize();
         this.shareCount = caller.shareCount;
         if(caller.lastVisitedby != visitingStrKey) shareCount++;
         this.lastVisitedby = visitingStrKey;
@@ -58,6 +60,20 @@ public class Inner extends Node {
                     max = temp;
         }
         return max;
+    }
+
+    Node getDeepestPalindrome(int length, int[] firsts, Node[] flatTree) {
+
+        return null;
+    }
+
+    public Node walk() {
+        if(iter == null)
+            iter = children.values().iterator();
+        if(iter.hasNext())
+            return iter.next();
+        else
+            return this.parent;
     }
 
     @Override

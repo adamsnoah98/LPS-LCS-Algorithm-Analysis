@@ -82,6 +82,51 @@ public class LPS {
     }
 
     /**
+     * Manacher's Algorithm
+     *
+     * Space: O(n)
+     *
+     * Storing palindrome lengths in a O(n) array
+     *
+     * Time: O(n)
+     *
+     * The frontier is monotonically increasing with the number of iterations within the while loop.
+     * Frontier is bounded by the length of the string.
+     *
+     * @param s target String
+     * @return A palindromic substring of maximal length
+     */
+    public static String manachers(String s) {
+        if(s.length() == 0) return "";
+        int[] maxes = new int[2*s.length() + 1];
+        int left, right, frontier = 0, frontierCenter = 0, bestI = 0, jump;
+        maxes[0] = 1;
+        for(int i = 0; i < maxes.length; i++) {
+            left = i / 2;
+            right = (i + 1) / 2;
+            jump = 2*frontierCenter < i ? 0 : maxes[2*frontierCenter-i];
+            if(frontier <= (i + jump + 1) / 2) {
+                left -= jump / 2;
+                right += jump / 2;
+                while(left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+                    left--; right++;
+                }
+            } else
+                maxes[i] = jump;
+            if(right - 1 >= frontier) { //Update frontier
+                frontier = right - 1;
+                frontierCenter = i;
+            }
+            maxes[i] = Math.max(0, right - left - 1);
+            if(maxes[bestI] < maxes[i]) //Update best
+                bestI = i;
+        }
+        left = (bestI+1)/2 - maxes[bestI]/2; //center* + radius
+        right = (bestI)/2 + maxes[bestI]/2 + 1; //center* + radius + buffer
+        return s.substring(left, right);
+    }
+
+    /**
      * Suffix Tree Implementation
      * Space: O(n+m)
      * A compressed suffix tree has O(1) sized edges, and contains at most 2(n+m) nodes
@@ -101,7 +146,7 @@ public class LPS {
      * @return A common substring of maximal length
      */
     public static String st(String s) {
-        return new GST(s, new StringBuilder(s).reverse().toString()).getLCSS();
+        return new GST(s, new StringBuilder(s).reverse().toString()).LPSPreprocess().getLPS();
     }
 
     //////////////////////////////// RUNTIME TESTING ////////////////////////////////////

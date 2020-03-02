@@ -8,10 +8,13 @@ public class GST {
     private Inner root, dummy = new Inner();
     private eString[] ps;
     private int[] leafEnds;
-    private int csk; //current strKey
+    private int size = 0, csk; //node count, current strKey
+    private RMQ lcaQueryer;
+
+
+    //////////////////////////// Construction /////////////////////////////////
 
     public GST(String... strs) {
-        Node.idCounter = 0;
         root = new Inner(this);
         ps = new eString[strs.length];
         leafEnds = new int[strs.length];
@@ -40,12 +43,46 @@ public class GST {
         }
     }
 
+    /////////////////////////// Queries on Tree ///////////////////////////////
+
     /**
      * @return A substring of maximal length shared by all parent strings
      */
     public String getLCSS() {
         Node deepest = root.getDeepestShared(ps.length);
         return ps[deepest.strKey].subString(deepest.getEnd() - deepest.getDepth(), deepest.getEnd());
+    }
+
+    /**
+     * This is a Linear time(*) query of the longest palindromic substring.
+     *
+     * @return A palindromic substring of maximal length shared by both parent strings
+     *
+     * An assertion error will be thrown if the tree is not of exactly 2 strings or if the GST
+     * has not been preprocessed for LPS. (It is only to be used
+     * in the case where ps[0] == ps[1].reverse() but this is time consuming)
+     */
+    public String getLPS(){
+        assert ps.length == 2 && lcaQueryer != null;
+        Node best = root, temp;
+        int l = ps[0].length();
+        for(int i = 0; i < l; i++) {
+            temp = lcaQueryer.LCA(i, - i + 1);
+            best = temp.depth > best.depth ? temp : best;
+        }
+        return ps[best.strKey].subString(best.getEnd() - best.getDepth(), best.getEnd());
+    }
+
+    /**
+     * Linear time preprocessing of this tree for O(1) LCA retrieval;
+     *
+     * Processing based on algorithm presented by Bender & Farach-Colton (2000)
+     * @return this
+     */
+    public GST LPSPreprocess() {
+        assert ps.length == 2;
+        lcaQueryer = new RMQ(root, size);
+        return this;
     }
 
     //////////////////////////// Active Point Fields //////////////////////////////
@@ -142,6 +179,10 @@ public class GST {
 
     public int getLeafEnd(int strKey) {
         return leafEnds[strKey];
+    }
+
+    public int getAndIncSize() {
+        return size++;
     }
 }
 

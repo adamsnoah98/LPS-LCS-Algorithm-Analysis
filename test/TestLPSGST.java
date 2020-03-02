@@ -1,11 +1,11 @@
 import Algos.LPS;
 import org.junit.Assert;
 
-public class TestLPSDP extends LPSFrameWork {
+public class TestLPSGST extends LPSFrameWork {
 
-    public TestLPSDP() {
+    public TestLPSGST() {
         try {
-            super.m = LPS.class.getDeclaredMethod("dp", String.class);
+            m = LPS.class.getDeclaredMethod("st", String.class);
         } catch (NoSuchMethodException e) {
             Assert.fail();
         }
