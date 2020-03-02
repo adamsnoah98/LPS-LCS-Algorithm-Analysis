@@ -63,14 +63,14 @@ The best performing algorithm for DPS (for strings under 2<sup>24</sup> characte
 
 ### Manacher's Algorithm
 
-TODO Text
+[Manacher's algorithm](https://www.sciencedirect.com/science/article/pii/030439759400083U) is the dynamic programming upgrade to the *Improved* algorithm above. It is a very simple *O(n)* time algorithm, improving on the *O(P)* above, at the cost of linear space.
 
-TODO Graph
+<b>Graph coming soon</b>
 
 ### Suffix Trees
 Despite having the best asymptotic runtime, suffix trees performed the worst for this sample space due to their large overhead and the abstraction heavy implementation I used. The algorithm utilizes a modified LCS solution, feeding in the target string and its reverse. This requires constant time LCA retrieval, processed in linear time. My solution utilizes a *O(<text>&radic;</text> n log<sup>2</sup>n) <b>&isin;</b> O(n)* processing algorithm presented by Bender & Farach-Colton (2000).
 
-<img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/LPS_st.png" width="500" height="300" />
+<b>Part of this is a WIP, graph to come.</b>
 
 ## Further Notes
 
