@@ -59,18 +59,22 @@ Notice that the performance appears worse with smaller alphabets; however, this 
 ### Improved
 The best performing algorithm for DPS (for strings under 2<sup>24</sup> characters), was a space-cheap version of manacher's algorithm, which runs in *O(P)* time, where *P* is the number of palindromic substrings.  Typically this number is *O(n)*, and the algorithm is very basic so there is little overhead. It iterates through the string, for each iteration *i* finding the longest possible odd-length palindrome centered on character *i*, and the longest even-length palindrome centered between characters *i* and *i+1*.
 
-<img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/LPS_dp.png" width="500" height="300" />
+<img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/LPS_improved.png" width="500" height="300" />
 
 ### Manacher's Algorithm
 
 [Manacher's algorithm](https://www.sciencedirect.com/science/article/pii/030439759400083U) is the dynamic programming upgrade to the *Improved* algorithm above. It is a very simple *O(n)* time algorithm, improving on the *O(P)* above, at the cost of linear space.
 
-<b>Graph coming soon</b>
+<img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/LPS_manachers.png" width="500" height="300" />
+
+While the theorectical runtime is better, and performance on certain strings, such as those with long series of repeated characters, shows that, on average the additional cost of linear space provides little benefit on random strings.
 
 ### Suffix Trees
 Despite having the best asymptotic runtime, suffix trees performed the worst for this sample space due to their large overhead and the abstraction heavy implementation I used. The algorithm utilizes a modified LCS solution, feeding in the target string and its reverse. This requires constant time LCA retrieval, processed in linear time. My solution utilizes a *O(<text>&radic;</text> n log<sup>2</sup>n) <b>&isin;</b> O(n)* processing algorithm presented by Bender & Farach-Colton (2000).
 
-<b>Part of this is a WIP, graph to come.</b>
+<img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/LPS_st.png" width="500" height="300" />
+
+Despite the same linear runtime as Manacher's algorithm, the massive overhead of suffix trees makes this approach far worse in a case by case basis; however, if the trees are already initialized and LCA-prepared, the actual LPS computation is very fast.
 
 ## Further Notes
 
