@@ -67,7 +67,7 @@ The best performing algorithm for DPS (for strings under 2<sup>24</sup> characte
 
 <img src="https://github.com/adamsnoah98/LPS-LCS-Algorithm-Analysis/blob/master/Graphs/LPS_manachers.png" width="500" height="300" />
 
-While the theorectical runtime is better, and performance on certain strings, such as those with long series of repeated characters, shows that, on average the additional cost of linear space provides little benefit on random strings.
+Performance on certain strings, such as those with long series of repeated characters, can show speed improvements over the previous algorithm; however, on average the additional cost of linear space provides little benefit on random strings.
 
 ### Suffix Trees
 Despite having the best asymptotic runtime, suffix trees performed the worst for this sample space due to their large overhead and the abstraction heavy implementation I used. The algorithm utilizes a modified LCS solution, feeding in the target string and its reverse. This requires constant time LCA retrieval, processed in linear time. My solution utilizes a *O(<text>&radic;</text> n log<sup>2</sup>n) <b>&isin;</b> O(n)* processing algorithm presented by Bender & Farach-Colton (2000).
